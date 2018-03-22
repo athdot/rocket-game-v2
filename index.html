@@ -145,6 +145,11 @@
         ctx.fillRect(x - width / 2, y - height / 2 - 3, width, height + 6);
         drawFont(text, 40, x, y - 20, 'rgb(0,26,51)');
       }
+      
+      window.onresize = function(){
+        c.width = window.innerWidth;
+        c.height = window.innerHeight;
+      }
 
       var s = [];
       place = 0;
