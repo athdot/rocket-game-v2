@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Rocket Game Beta</title>
+    <style>
+      @font-face {
+        font-family: "spaceFont";
+        src: url(trench100free.otf);
+      }
+
+    </style>
+  </head>
+
+  <body onmousedown="t(event)" onmousemove="showCoords(event)" onmouseup="mouseCoordsReset()">
+    <canvas id="gameC" style="position:absolute; top: 0; left: 0; background-color: rgb(0,26,51); width: 100%; height: 100vh;"></canvas>
+    <script>
+      class star {
+        constructor() {
+          this.x = this.random(0, window.innerWidth);
+          this.y = -this.random(10, 100);
+          this.speed = 1;
+          this.distance = this.random(-5, 10);
+          this.distance *= this.speed;
+        }
+        random(min, max) {
+          return Math.round(Math.random() * (max - min)) + min;
+        }
+        render(speedy) {
+          this.speed = speedy;
+          this.y += (Math.abs(this.x - window.innerWidth / 2) / (window.innerWidth / 2.5)) / this.distance + this.speed;
+          var ctx = document.getElementById("gameC").getContext("2d");
+          ctx.fillStyle = "white";
+          ctx.fillRect(this.x, this.y, 1, 1);
+        }
+        remove() {
+          return this.y > window.innerHeight;
+        }
+      }
+
+      var mouseY = -1;
+      var mouseX = -1;
+      var md = false;
+
+      function showCoords(event) {
+        if (md) {
+          mouseX = event.clientX;
+          mouseY = event.clientY;
+        } else {
+          mouseX = -1;
+          mouseY = -1;
+        }
+      }
+
+      function t(event) {
+        md = true;
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+      }
+
+      function mouseCoordsReset() {
+        md = false;
+        mouseX = -1;
+        mouseY = -1;
+      }
+
+      function random(min, max) {
+        return Math.round(Math.random() * (max - min)) + min;
+      }
+
+      function renderStars(speed) {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        for (var i = 0; i < s.length; i++) {
+          s[i].render(speed);
+        }
+        if (random(0, 7) == 1) {
+          s[s.length] = new star();
+        }
+        var s2 = [];
+        for (var i = 0; i < s.length; i++) {
+          if (!s[i].remove()) {
+            s2[s2.length] = s[i];
+          }
+        }
+        s = s2;
+      }
+
+      function tapLoc(x1, y1, x2, y2) {
+        return (mouseX > x1 && mouseX < x2 && mouseY > y1 && mouseY < y2);
+      }
+
+      function drawFont(text, size, x, y, color) {
+        var txt = [text];
+        var str = size + "px spaceFont";
+        ctx.font = str;
+        ctx.fillStyle = color;
+        ctx.textBaseline = 'top';
+        lines = 1;
+        for (var j = 0; j < lines; j++) {
+          var width = ctx.measureText(txt[j]).width;
+          if (width > c.width - 60 && txt[j].split(" ").length != 1) {
+            var linst = "";
+            var ys = txt[j].split(" ");
+            var len = 0;
+            for (var i = 0; len != 1 && ctx.measureText(linst).width <= c.width - 60; i++) {
+              widths = ctx.measureText(txt[j]).width;
+              if (ctx.measureText(linst + ys[i]).width <= c.width - 60) {
+                linst += " " + ys[i];
+              } else {
+                len = 1;
+                lines++;
+                txt[j + 1] = txt[j].substring(linst.length, txt[j].length);
+              }
+            }
+            txt[j] = linst;
+          }
+        }
+        var lineplus = 0;
+        for (var i = 0; i < txt.length; i++) {
+          width = ctx.measureText(txt[i]).width;
+          ctx.fillText(txt[i], x - width / 2, y + lineplus);
+          lineplus += size;
+        }
+      }
+
+      function drawCylander(text, x, y, width, height) {
+        width = width / 3;
+        //left side
+        ctx.beginPath();
+        ctx.arc(x - width / 2, y, height / 2, 0, 2 * Math.PI, false);
+        ctx.fillStyle = 'white';
+        ctx.fill();
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = 'white';
+        ctx.stroke();
+        //right side
+        ctx.beginPath();
+        ctx.arc(x + width / 2, y, height / 2, 0, 2 * Math.PI, false);
+        ctx.fillStyle = 'white';
+        ctx.fill();
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = 'white';
+        ctx.stroke();
+        //middle
+        ctx.fillRect(x - width / 2, y - height / 2 - 3, width, height + 6);
+        drawFont(text, 40, x, y - 20, 'rgb(0,26,51)');
+      }
+
+      var s = [];
+      place = 0;
+      var c = document.getElementById("gameC");
+      c.width = window.innerWidth;
+      c.height = window.innerHeight;
+      var ctx = c.getContext("2d");
+      setInterval(function() {
+        renderStars(1);
+        if (place == 0) {
+          drawFont('Rocket', c.width / 5, c.width / 2 + 5, 100, 'white');
+          drawCylander('Play', c.width / 2, 120 + c.width / 5, 300, 35);
+          if (tapLoc(c.width / 2 - 150, 120 + c.width / 5 - 20, c.width / 2 + 150, 120 + c.width / 5 + 20)) {
+            place = 1;
+          }
+          drawCylander('Skins', c.width / 2, 180 + c.width / 5, 300, 35);
+          if (tapLoc(c.width / 2 - 150, 180 + c.width / 5 - 20, c.width / 2 + 150, 180 + c.width / 5 + 20)) {
+            place = 2;
+          }
+        }
+      }, 10);
+
+    </script>
+  </body>
+
+</html>
