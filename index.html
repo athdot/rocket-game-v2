@@ -6,22 +6,84 @@
     <style>
       @font-face {
         font-family: "spaceFont";
-        src: url(rf.otf);
+        src: url(https://athdot.github.io/rocket-game-beta/rf.otf);
       }
 
     </style>
   </head>
 
   <body onmousedown="t(event)" onmousemove="showCoords(event)" onmouseup="mouseCoordsReset()">
+    <div id="images" style="display:none;">
+      <img id="s0" src="https://athdot.github.io/rocket-game-beta/ships/sputnik.png" />
+      <img id="s1" src="https://athdot.github.io/rocket-game-beta/ships/soyuz.png" />
+      <img id="s2" src="https://athdot.github.io/rocket-game-beta/ships/spaceShuttle.png" />
+      <img id="s3" src="https://athdot.github.io/rocket-game-beta/ships/sat.png" />
+      <img id="s4" src="https://athdot.github.io/rocket-game-beta/ships/redScare.png" />
+      <img id="s5" src="https://athdot.github.io/rocket-game-beta/ships/arrowShip.png" />
+      <img id="s6" src="https://athdot.github.io/rocket-game-beta/ships/police.png" />
+      <img id="s7" src="https://athdot.github.io/rocket-game-beta/ships/box.png" />
+      <img id="s8" src="https://athdot.github.io/rocket-game-beta/ships/xwing.png" />
+      <img id="s9" src="https://athdot.github.io/rocket-game-beta/ships/plunger.png" />
+      <img id="s10" src="https://athdot.github.io/rocket-game-beta/ships/nyan.png" />
+      <img id="o0" src="https://athdot.github.io/rocket-game-beta/obstacles/poop.png" />
+      <img id="o1" src="https://athdot.github.io/rocket-game-beta/obstacles/dstar.png" />
+      <img id="o2" src="https://athdot.github.io/rocket-game-beta/obstacles/hal.png" />
+      <img id="o3" src="https://athdot.github.io/rocket-game-beta/obstacles/ast.png" />
+      <img id="o4" src="https://athdot.github.io/rocket-game-beta/obstacles/earth.png" />
+      <img id="o5" src="https://athdot.github.io/rocket-game-beta/images/coin.png" />
+      <img id="o6" src="https://athdot.github.io/rocket-game-beta/images/emerald.png" />
+      <img id="d0" src="https://athdot.github.io/rocket-game-beta/death/death1.png" />
+      <img id="arrow" src="https://athdot.github.io/rocket-game-beta/images/arrow.png" />
+    </div>
+    <div id="rotations" style="display:none;">
+    
+    </div>
     <canvas id="gameC" style="position:absolute; top: 0; left: 0; background-color: rgb(0,26,51); width: 100%; height: 100vh;"></canvas>
     <script>
+    	//Loaders...
+      
+      //This part makes images for all the degree's for all the obstacles to Greatly decrease in game loading time...
+      //Get div where things are to be stored.
+      var par = document.getElementById("rotations");
+      //Get all of the obsacles
+      var obs = [];
+      for(var i = 0; i < 7; i++){
+      	obs[i] = document.getElementById("o"+i);
+      }
+      
+      var tempC = document.createElement("canvas");
+      tempC.width = obs[0].width*2;
+      tempC.height = obs[0].height*2;
+      var tempCTX = tempC.getContext("2d");
+      for(var i = 0; i < obs.length; i++){
+      	var d = document.createElement("div");
+        d.id = "o2" + i;
+      	par.appendChild(d);
+      }
+      
+      for(var i = 0; i < obs.length; i++){
+      	tempCTX.clearRect(0,0,tempC.width,tempC.height);
+      	for(var j = 0; j < 360; j++){
+        	tempCTX.clearRect(0, 0, tempC.width, tempC.height);
+          tempCTX.save();
+          tempCTX.translate(tempC.width / 2, tempC.height / 2);
+          tempCTX.rotate(j * Math.PI / 180);
+          tempCTX.drawImage(obs[i], -tempC.width / 4, -tempC.width / 4, tempC.width/2, tempC.width/2);
+          tempCTX.restore();
+          var u = tempC.toDataURL();
+          var s = document.createElement("img");
+          s.src = u;
+          document.getElementById("o2" + i).appendChild("r"+j);
+        }
+      }
+      
+    	//Actual Game
       class star {
         constructor() {
           this.x = this.random(0, window.innerWidth);
           this.y = -this.random(10, 100);
           this.speed = 1;
-          this.distance = this.random(-5, 10);
-          this.distance *= this.speed;
+          this.distance = this.random(-4, 5) * this.speed;
         }
         random(min, max) {
           return Math.round(Math.random() * (max - min)) + min;
@@ -35,6 +97,26 @@
         }
         remove() {
           return this.y > c.height;
+        }
+      }
+
+      class ship {
+        constructor(num) {
+          this.image = num;
+        }
+        draw(rotation, size) {
+          var localC = document.createElement("canvas");
+          localC.width = size * 2;
+          localC.height = size * 2;
+          var localCTX = localC.getContext("2d");
+          var image1 = document.getElementById("s" + this.image);
+          localCTX.clearRect(0, 0, localC.width, localC.height);
+          localCTX.save();
+          localCTX.translate(localC.width / 2, localC.height / 2);
+          localCTX.rotate(rotation * Math.PI / 180);
+          localCTX.drawImage(image1, -size / 2, -size / 2, size, size);
+          localCTX.restore();
+          return localC;
         }
       }
 
@@ -64,6 +146,64 @@
         mouseY = -1;
       }
 
+      function img(name) {
+        return document.getElementById(name);
+      }
+
+      var skinPage = 0;
+      var line = 0;
+      var currentShip = 0;
+
+      var gold = 0;
+      var emerald = 0;
+
+      function skinScreen() {
+        ctx.drawImage(img("o5"), c.width - 110, 5, 30, 30);
+        drawFont(Math.floor(gold), 30, c.width - 50, 5, "white");
+        ctx.drawImage(img("o6"), c.width - 110, 28, 30, 30);
+        drawFont(Math.floor(emerald), 30, c.width - 50, 28, "white");
+
+        var across = Math.floor(c.width / 100);
+        var up = Math.floor(c.height / 100);
+        var isa = 0;
+        var linewidth = Math.floor(c.width / 140);
+        var l = 0;
+        for (var i = 0; i < 11; i++) {
+          var im = img("s" + isa);
+
+          ctx.drawImage(im, (c.width / 2 - ((linewidth + 0.63) / 2) * 110) + 110 * l, 70 + line * 110, 75, 75);
+          ctx.beginPath();
+          ctx.rect((c.width / 2 - ((linewidth + 0.63) / 2) * 110) + 110 * l - 5, 70 + line * 110 - 5, 85, 85);
+          ctx.strokeStyle = "white";
+          if (currentShip == isa) {
+            ctx.lineWidth = 4;
+          } else {
+            ctx.lineWidth = 2;
+          }
+          ctx.stroke();
+          isa = isa + 1;
+          if (tapLoc((c.width / 2 - ((linewidth + 0.63) / 2) * 110) + 110 * l - 5, 70 + line * 110 - 5, (c.width / 2 - ((linewidth + 0.63) / 2) * 110) + 110 * l - 5 + 85, 70 + line * 110 - 5 + 85)) {
+            currentShip = i;
+          }
+          l++;
+          if (l > linewidth) {
+            l = 0;
+            line += 1;
+          }
+        }
+        //So everything is now rendered.
+        if (currentShip >= 11) {
+          currentShip = 11;
+        }
+
+        //we got the buttons, now for the menu button
+        ctx.drawImage(document.getElementById("arrow"), 0, 0, 60, 60);
+        drawFont("Skins", 50, c.width / 2, 8, "white");
+        if (tapLoc(0, 0, 60, 60)) {
+          place = 0;
+        }
+      }
+
       function random(min, max) {
         return Math.round(Math.random() * (max - min)) + min;
       }
@@ -89,6 +229,10 @@
         return (mouseX > x1 && mouseX < x2 && mouseY > y1 && mouseY < y2);
       }
 
+      function drawShip(ship, rot, x, y, siz) {
+        ctx.drawImage(ship.draw(rot, siz), -ship.draw(rot, siz).width / 2 + x, -ship.draw(rot, siz).height / 2 + y);
+      }
+      
       function drawFont(text, size, x, y, color) {
         var txt = [text];
         var str = size + "px spaceFont";
@@ -145,22 +289,83 @@
         ctx.fillRect(x - width / 2, y - height / 2 - 3, width, height + 6);
         drawFont(text, 40, x, y - 20, 'rgb(0,26,51)');
       }
-      
-      window.onresize = function(){
+
+      window.onresize = function() {
         c.width = window.innerWidth;
         c.height = window.innerHeight;
       }
 
       var s = [];
-      place = 0;
+      var place = 0;
+
+      var highscore = 0;
+
       var c = document.getElementById("gameC");
       c.width = window.innerWidth;
       c.height = window.innerHeight;
       var ctx = c.getContext("2d");
+
+      var shipRot = 0;
+      var shipX = c.width / 2;
+      var shipY = c.height + 300;
+      var shipMov = 0;
+
+      if (window.innerHeight >= window.innerWidth) {
+        var shipSize = window.innerWidth / 4;
+      } else {
+        var shipSize = window.innerHeight / 5;
+      }
+      var shipH = c.height - (80 * (shipSize / 100));
+      var shipW = 0;
+      var sideMove = 0;
+      var sideMoveShould = 0;
+      var shipRotShould = 0;
+      var starSpeed = 1;
+      var rotSp = 1;
+      var ran = 15;
+      var mult = 0;
+      var multm = 0.01;
+
+      function play() {
+        drawShip(new ship(currentShip), shipRot, shipX, shipY, shipSize);
+        if (shipY > shipH) {
+          shipY -= (shipY - (shipH)) / 40;
+        }
+        shipX += Math.sin(shipRot * Math.PI / 180) * starSpeed * 5;
+
+        if (mouseX - ran > shipX && mouseX != -1 && shipX < c.width - shipSize) {
+          shipRotShould = 30;
+        } else if (mouseX + ran < shipX && mouseX != -1 && shipX > shipSize) {
+          shipRotShould = -30;
+        } else {
+          shipRotShould = 0;
+        }
+        if (shipRotShould > shipRot) {
+          if (mult < 1) {
+            mult += multm;
+          }
+          shipRot += rotSp * mult;
+        } else if (shipRotShould < shipRot) {
+          if (mult < 1) {
+            mult += multm;
+          }
+          shipRot -= rotSp * mult;
+        } else if (mult > 0) {
+          mult -= multm;
+        }
+      }
+
       setInterval(function() {
-        renderStars(1);
+        renderStars(starSpeed);
         if (place == 0) {
           drawFont('Rocket', c.width / 5, c.width / 2 + 5, 100, 'white');
+
+          drawFont(Math.floor(highscore), 50, c.width - 10 * (Math.floor(highscore) + "").length - 20, 20, "white");
+          ctx.drawImage(img("o5"), 20, 10, 30, 30);
+          drawFont(Math.floor(gold), 30, 65, 10, "white");
+          ctx.drawImage(img("o6"), 20, 37, 30, 30);
+          drawFont(Math.floor(emerald), 30, 65, 37, "white");
+
           drawCylander('Play', c.width / 2, 120 + c.width / 5, 300, 35);
           if (tapLoc(c.width / 2 - 150, 120 + c.width / 5 - 20, c.width / 2 + 150, 120 + c.width / 5 + 20)) {
             place = 1;
@@ -169,6 +374,12 @@
           if (tapLoc(c.width / 2 - 150, 180 + c.width / 5 - 20, c.width / 2 + 150, 180 + c.width / 5 + 20)) {
             place = 2;
           }
+        } else if (place == 2) {
+          skinPage = 0;
+          line = 0;
+          skinScreen();
+        } else if (place == 1) {
+          play();
         }
       }, 10);
 
