@@ -73,7 +73,8 @@
           var u = tempC.toDataURL();
           var s = document.createElement("img");
           s.src = u;
-          document.getElementById("o2" + i).appendChild("r"+j);
+          s.id = "r" + j;
+          document.getElementById("o2" + i).appendChild(s);
         }
       }
       
