@@ -14,8 +14,7 @@
 
   <body onmousedown="t(event)" onmousemove="showCoords(event)" onmouseup="mouseCoordsReset()">
     <div id="bs" style="position:absolute; top: 0; left: 0; width: 100%; height: 100vh; background-color: black; z-index: 900;">
-      <div style="position:absolute; top: 50%; left: 50%; font-size: 40px; color: white; transform:translate(-50%,-50%); font-family: Verdana, Geneva, sans-serif;">Loading</div>
-      <canvas id="loadingBar" width="300" height="50" style="position:absolute; top: 50%; left: 50%; transform:translate(-50%,100%); background-color: white;"></canvas>
+      <div style="position:absolute; top: 50%; left: 50%; font-size: 40px; color: white; transform:translate(-50%,-50%); font-family: Verdana, Geneva, sans-serif;">Loading...</div>
     </div>
     <div id="images">
       <img id="s0" style="display:none;" src="ships/sputnik.png" />
@@ -81,11 +80,6 @@
           s.src = u;
           s.id = "r" + j;
           document.getElementById("o2" + i).appendChild(s);
-          var bar = document.getElementById("loadingBar");
-          var bctx = bar.getContext("2d");
-          var length = (i*360+j)/(7*360)*bar.width;
-          bctx.fillStyle = "red";
-          bctx.fillRect(0,0,length,bar.height);
         }
       } 
         document.getElementById("bs").remove();
