@@ -46,14 +46,11 @@
       //Get div where things are to be stored.
       var par = document.getElementById("rotations");
       //Get all of the obsacles
-      var obs = [];
-      for(var i = 0; i < 7; i++){
-      	obs[i] = document.getElementById("o"+i);
-      }
       
       var tempC = document.createElement("canvas");
-      tempC.width = obs[0].width*2;
-      tempC.height = obs[0].height*2;
+      tempC.width = document.getElementById("o1").width*2;
+      tempC.height = document.getElementById("o1").height*2;
+      console.log(tempC.width);
       var tempCTX = tempC.getContext("2d");
       for(var i = 0; i < obs.length; i++){
       	var d = document.createElement("div");
@@ -68,7 +65,8 @@
           tempCTX.save();
           tempCTX.translate(tempC.width / 2, tempC.height / 2);
           tempCTX.rotate(j * Math.PI / 180);
-          tempCTX.drawImage(obs[i], -tempC.width / 4, -tempC.width / 4, tempC.width/2, tempC.width/2);
+          var im = document.getElementById("o"+i);
+          tempCTX.drawImage(im, -tempC.width / 4, -tempC.height / 4, tempC.width/2, tempC.height/2);
           tempCTX.restore();
           var u = tempC.toDataURL();
           var s = document.createElement("img");
