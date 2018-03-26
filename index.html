@@ -126,6 +126,17 @@
           return localC;
         }
       }
+      
+      class obj {
+        constructor(num) {
+          this.image = num;
+        }
+        draw(rotation) {
+          rotation = rotation-Math.floor(rotation/360)*360;
+          var a = document.getElementById("o2" + this.image);
+          return a.getElementById(rotation);
+        }
+      }
 
       var mouseY = -1;
       var mouseX = -1;
