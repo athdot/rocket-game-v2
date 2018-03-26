@@ -48,9 +48,9 @@
       //Get all of the obsacles
       
       var tempC = document.createElement("canvas");
-      tempC.width = document.getElementById("o1");
+      tempC.width = document.getElementById("o1").width*2;
       tempC.height = document.getElementById("o1").height*2;
-      console.log(tempC.width);
+      console.log(tempC.width + " " + document.getElementById("o1").width*2);
       var tempCTX = tempC.getContext("2d");
       for(var i = 0; i < 7; i++){
       	var d = document.createElement("div");
