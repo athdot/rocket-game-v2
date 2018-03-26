@@ -81,6 +81,11 @@
           s.src = u;
           s.id = "r" + j;
           document.getElementById("o2" + i).appendChild(s);
+          var bar = document.getElementById("loadingBar");
+          var bctx = bar.getContext("2d");
+          var length = (i*360+j)/(7*360)*bar.width;
+          bctx.fillStyle = "red";
+          bctx.fillRect(0,0,length,bar.height);
         }
       } 
         document.getElementById("bs").remove();
