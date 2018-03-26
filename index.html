@@ -153,7 +153,7 @@
           this.rotation += this.rotationSpeed;
           this.rotation = this.rotation-Math.floor(this.rotation/360)*360;
           var a = document.getElementById("o2" + this.image);
-          return a.getElementById(this.rotation);
+          return a.getElementById(""+Math.round(this.rotation));
         }
       }
 
