@@ -43,6 +43,10 @@
     </div>
     <canvas id="gameC" style="position:absolute; top: 0; left: 0; background-color: rgb(0,26,51); width: 100%; height: 100vh;"></canvas>
     <script>
+      Element.prototype.getElementById = function(id) {
+        return document.getElementById(id);
+      }
+      
       //Loading Screen
       var lastImg = document.getElementById("arrow");
       document.body.style.backgroundColor = "black";
