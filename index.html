@@ -130,11 +130,30 @@
       class obj {
         constructor(num) {
           this.image = num;
+          this.rotation = this.random(0,359):
+          this.rotationSpeed = this.random(-200,200)/100;
+          this.x = this.random(-100,window.innerWidth+100);
+          this.y = -100;
+          this.moveSpeed = this.random(0,300)/100;
+          this.xs = Math.sin(this.moveDir * Math.PI/180)*this.moveSpeed;
+          this.ys = Math.cos(this.moveDir * Math.PI/180)*this.moveSpeed;
         }
-        draw(rotation) {
-          rotation = rotation-Math.floor(rotation/360)*360;
+        random(min, max) {
+          return Math.round(Math.random() * (max - min)) + min;
+        }
+        getX(){
+          return this.x; 
+        }
+        getY(){
+          return this.y; 
+        }
+        draw() {
+          this.x += this.xs;
+          this.y += this.ys;
+          this.rotation += this.rotationSpeed;
+          this.rotation = this.rotation-Math.floor(this.rotation/360)*360;
           var a = document.getElementById("o2" + this.image);
-          return a.getElementById(rotation);
+          return a.getElementById(this.rotation);
         }
       }
 
@@ -372,7 +391,12 @@
           mult -= multm;
         }
       }
-
+      var apple = new obj();
+      
+      function rendObj(ob,size){
+        ctx.drawImage(ob.draw(),ob.getX()-size/2,ob.getY()-size/2,size,size);
+      }
+      
       setInterval(function() {
         renderStars(starSpeed);
         if (place == 0) {
@@ -398,6 +422,7 @@
           skinScreen();
         } else if (place == 1) {
           play();
+          rendObj(apple,100);
         }
       }, 10);
 
