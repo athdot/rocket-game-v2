@@ -40,6 +40,8 @@
     </div>
     <canvas id="gameC" style="position:absolute; top: 0; left: 0; background-color: rgb(0,26,51); width: 100%; height: 100vh;"></canvas>
     <script>
+      //Loading Screen
+      document.body.style.backgroundColor = "black";
     	//Loaders...
       
       //This part makes images for all the degree's for all the obstacles to Greatly decrease in game loading time...
@@ -61,11 +63,11 @@
       for(var i = 0; i < 7; i++){
       	tempCTX.clearRect(0,0,tempC.width,tempC.height);
       	for(var j = 0; j < 360; j++){
+          var im = document.getElementById("o"+i);
         	tempCTX.clearRect(0, 0, tempC.width, tempC.height);
           tempCTX.save();
           tempCTX.translate(tempC.width / 2, tempC.height / 2);
           tempCTX.rotate(j * Math.PI / 180);
-          var im = document.getElementById("o"+i);
           tempCTX.drawImage(im, -tempC.width / 4, -tempC.height / 4, tempC.width/2, tempC.height/2);
           tempCTX.restore();
           var u = tempC.toDataURL();
