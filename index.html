@@ -41,6 +41,7 @@
     <canvas id="gameC" style="position:absolute; top: 0; left: 0; background-color: rgb(0,26,51); width: 100%; height: 100vh;"></canvas>
     <script>
       //Loading Screen
+      var lastImg = document.getElementById("arrow");
       document.body.style.backgroundColor = "black";
     	//Loaders...
       
@@ -60,6 +61,8 @@
       	par.appendChild(d);
       }
       
+      lastImg.onload = function(){
+      
       for(var i = 0; i < 7; i++){
       	tempCTX.clearRect(0,0,tempC.width,tempC.height);
       	for(var j = 0; j < 360; j++){
@@ -77,7 +80,7 @@
           document.getElementById("o2" + i).appendChild(s);
         }
       } 
-      
+      }
     	//Actual Game
       class star {
         constructor() {
