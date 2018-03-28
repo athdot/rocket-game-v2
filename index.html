@@ -146,6 +146,7 @@
           return Math.round(Math.random() * (max - min)) + min;
         }
         getX(){
+          console.log(this.x);
           return this.x; 
         }
         getY(){
@@ -399,7 +400,6 @@
       
       function rendObj(ob,size){
         ctx.drawImage(ob.draw(),ob.getX()-size/2,ob.getY()-size/2,size,size);
-        console.log(ob.getX() + " " + ob.getY());
       }
       
       setInterval(function() {
@@ -428,7 +428,6 @@
         } else if (place == 1) {
           play();
           rendObj(apple,100);
-          console.log("1. " + apple.getX() + " " + apple.getY());
         }
       }, 10);
 
