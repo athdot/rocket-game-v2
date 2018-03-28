@@ -136,8 +136,8 @@
           this.image = num;
           this.rotation = this.random(0,359);
           this.rotationSpeed = this.random(-200,200)/100;
-          this.x = this.random(-100,window.innerWidth+100);
-          this.y = -100;
+          this.xy = this.random(-100,window.innerWidth+100);
+          this.yy = -100;
           this.moveSpeed = this.random(0,300)/100;
           this.xs = Math.sin(this.moveDir * Math.PI/180)*this.moveSpeed;
           this.ys = Math.cos(this.moveDir * Math.PI/180)*this.moveSpeed;
@@ -146,15 +146,15 @@
           return Math.round(Math.random() * (max - min)) + min;
         }
         getX(){
-          console.log(this.x);
-          return this.x; 
+          console.log(this.xy);
+          return this.xy; 
         }
         getY(){
-          return this.y; 
+          return this.yy; 
         }
         draw() {
-          this.x += this.xs;
-          this.y += this.ys;
+          this.xy += this.xs;
+          this.yy += this.ys;
           this.rotation += this.rotationSpeed;
           this.rotation = this.rotation-Math.floor(this.rotation/360)*360;
           var a = document.getElementById("o2" + this.image);
