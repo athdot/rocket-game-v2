@@ -385,7 +385,6 @@
       var randMax = 10;
       
       function objects(){
-        console.log(objList.length);
          for(var i = 0; i < objList.length; i++){
             objList[i].draw(100);
          }
@@ -395,17 +394,7 @@
         }
         //Remove objects over limit
         for(var i = 0; i < objList; i++){
-          if(objList[i].removable()){
-            var temp = [];
-            document.getElementById(objList[i].getId()).remove();
-            for(var j = 0; j < i; j++){
-               temp[temp.length] = objList[j];
-            }
-            for(var j = i+1; j < objList.length; j++){
-              temp[temp.length] = objList[j]; 
-            }
-            objList = temp;
-          }
+          console.log(objList[i].removable());
         }
       }
       
