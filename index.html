@@ -425,9 +425,9 @@
         }
         shipX += Math.sin(shipRot * Math.PI / 180) * starSpeed * 5;
 
-        if (mouseX - ran > shipX && mouseX != -1 && shipX < c.width - shipSize) {
+        if (mouseX - ran > shipX && mouseX != -1) {
           shipRotShould = 30;
-        } else if (mouseX + ran < shipX && mouseX != -1 && shipX > shipSize) {
+        } else if (mouseX + ran < shipX && mouseX != -1) {
           shipRotShould = -30;
         } else {
           shipRotShould = 0;
