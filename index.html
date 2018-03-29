@@ -13,9 +13,6 @@
   </head>
 
   <body onmousedown="t(event)" onmousemove="showCoords(event)" onmouseup="mouseCoordsReset()">
-    <div id="bs" style="position:absolute; top: 0; left: 0; width: 100%; height: 100vh; background-color: black; z-index: 900;">
-      <div style="position:absolute; top: 50%; left: 50%; font-size: 40px; color: white; transform:translate(-50%,-50%); font-family: Verdana, Geneva, sans-serif;">Loading...</div>
-    </div>
     <div id="images">
       <img id="s0" style="display:none;" src="ships/sputnik.png" />
       <img id="s1" style="display:none;" src="ships/soyuz.png" />
@@ -80,78 +77,12 @@
       
       //This part makes images for all the degree's for all the obstacles to Greatly decrease in game loading time...
       //Get div where things are to be stored.
-      var par = document.getElementById("rotations");
-      //Get all of the obsacles
       
       var tempC = document.createElement("canvas");
       tempC.width = 256*2;
       tempC.height = 256*2;
       var tempCTX = tempC.getContext("2d");
-      for(var i = 0; i < 7; i++){
-      	var d = document.createElement("div");
-        d.id = "o2" + i;
-      	par.appendChild(d);
-      }
       
-      var o0 = [];
-      var o1 = [];
-      var o2 = [];
-      var o3 = [];
-      var o4 = [];
-      var o5 = [];
-      var o6 = [];
-      
-      lastImg.onload = function(){
-      
-      for(var i = 0; i < 7; i++){
-      	tempCTX.clearRect(0,0,tempC.width,tempC.height);
-      	for(var j = 0; j < 360; j++){
-          var im = document.getElementById("o"+i);
-        	tempCTX.clearRect(0, 0, tempC.width, tempC.height);
-          tempCTX.save();
-          tempCTX.translate(tempC.width / 2, tempC.height / 2);
-          tempCTX.rotate(j * Math.PI / 180);
-          tempCTX.drawImage(im, -tempC.width / 4, -tempC.height / 4, tempC.width/2, tempC.height/2);
-          tempCTX.restore();
-          var u = tempC.toDataURL();
-          var s = document.createElement("img");
-          s.src = u;
-          s.id = "r" + j;
-          document.getElementById("o2" + i).appendChild(s);
-        }
-      } 
-              for(var i = 0; i < 359; i++){
-         var t = document.getElementById("o20");
-         o0[i] = t.getElementById("r" + i);
-      }
-      for(var i = 0; i < 359; i++){
-         var t = document.getElementById("o21");
-         o1[i] = t.getElementById("r" + i);
-      }
-      for(var i = 0; i < 359; i++){
-         var t = document.getElementById("o22");
-         o2[i] = t.getElementById("r" + i);
-      }
-      for(var i = 0; i < 359; i++){
-         var t = document.getElementById("o23");
-         o3[i] = t.getElementById("r" + i);
-      }
-      for(var i = 0; i < 359; i++){
-         var t = document.getElementById("o24");
-         o4[i] = t.getElementById("r" + i);
-      }
-      for(var i = 0; i < 359; i++){
-         var t = document.getElementById("o25");
-         o5[i] = t.getElementById("r" + i);
-      }
-      for(var i = 0; i < 359; i++){
-         var t = document.getElementById("o26");
-         o6[i] = t.getElementById("r" + i);
-      } 
-        document.getElementById("bs").remove();
-      }
-      
-      console.log(o0[0]);
     	//Actual Game
       class star {
         constructor() {
@@ -206,6 +137,17 @@
           this.moveDir = this.random(-20,20);
           this.xs = Math.sin(this.moveDir * Math.PI/180)*this.moveSpeed;
           this.ys = Math.cos(this.moveDir * Math.PI/180)*this.moveSpeed;
+          this.id = "";
+          for(var i = 0; i < 6; i++){
+           this.id += this.random(0,9); 
+          }
+          var s = document.createElement("img");
+          s.src = document.getElementById("o" + num).src;
+          s.width = 100;
+          s.height = 100;
+          s.id = this.id;
+          s.style = "position:absolute; z-index: 1000; top: " + this.yy + "px; left: " + this.xy + "px; transform: rotate(" +  Math.round(this.rotation) + "deg);";
+          document.body.appendChild(s);
         }
         random(min, max) {
           return Math.round(Math.random() * (max - min)) + min;
@@ -219,27 +161,15 @@
         remove(){
           return this.yy > c.height+100;
         }
-        draw() {
+        draw(size) {
           this.xy += this.xs;
           this.yy += this.ys;
           this.rotation += this.rotationSpeed;
           this.rotation = this.rotation-Math.floor(this.rotation/360)*360;
-          if(this.image == 0){
-            var w = o0[Math.round(this.rotation)]; 
-          }else if(this.image == 1){
-            var w = o1[Math.round(this.rotation)]; 
-          }else if(this.image == 2){
-            var w = o2[Math.round(this.rotation)]; 
-          }else if(this.image == 3){
-            var w = o3[Math.round(this.rotation)]; 
-          }else if(this.image == 4){
-            var w = o4[Math.round(this.rotation)]; 
-          }else if(this.image == 5){
-            var w = o5[Math.round(this.rotation)]; 
-          }else if(this.image == 6){
-            var w = o6[Math.round(this.rotation)]; 
-          }
-          return w;
+          var s = document.getElementById(this.id);
+          s.width = size;
+          s.height = size;
+          s.style =  "position:absolute; z-index: 1000; top: " + this.yy + "px; left: " + this.xy + "px; transform: rotate(" +  Math.round(this.rotation) + "deg);";
         }
       }
 
@@ -456,11 +386,11 @@
       
       function objects(){
          for(var i = 0; i < objList.length; i++){
-            rendObj(objList[i],100); 
+            objList[i].draw(100);
          }
         //Objects
         if(random(1,randMax) == 1){
-           objList[objList.length] = new obj(random(0,6));
+           objList[objList.length] = new obj(1);
         }
         //Remove objects over limit
         for(var i = 0; i < objList; i++){
@@ -475,11 +405,6 @@
             objList = temp;
           }
         }
-      }
-      
-      function rendObj(ob,size){
-        size *= 2;
-        ctx.drawImage(ob.draw(),ob.getX()-size/2,ob.getY()-size/2,size,size);
       }
       
       setInterval(function() {
