@@ -358,6 +358,11 @@
       var multm = 0.01;
 
       function play() {
+        if(distance > highscore){
+  	      highscore = distance;
+        }
+        drawFont(Math.floor(distance),50,gameField.width-10*(Math.floor(distance) + "").length-20,20,"white");
+        distance += 50/2000;
         drawShip(new ship(currentShip), shipRot, shipX, shipY, shipSize);
         if (shipY > shipH) {
           shipY -= (shipY - (shipH)) / 40;
@@ -387,10 +392,11 @@
       }
       var objList = [];
       var randMax = 10;
+      var distance = 1;
       
       function objects(){
          for(var i = 0; i < objList.length; i++){
-            objList[i].draw(80);
+            objList[i].draw(70);
          }
         //Objects
         if(random(1,randMax) == 1){
@@ -436,7 +442,7 @@
 
           drawCylander('Play', c.width / 2, 120 + c.width / 5, 300, 35);
           if (tapLoc(c.width / 2 - 150, 120 + c.width / 5 - 20, c.width / 2 + 150, 120 + c.width / 5 + 20)) {
-            place = 1;
+            place = 3;
           }
           drawCylander('Skins', c.width / 2, 180 + c.width / 5, 300, 35);
           if (tapLoc(c.width / 2 - 150, 180 + c.width / 5 - 20, c.width / 2 + 150, 180 + c.width / 5 + 20)) {
@@ -449,6 +455,9 @@
         } else if (place == 1) {
           play();
           objects();
+        } else if (place == 3){
+          distance = 1;
+          place = 1;
         }
       }, 10);
 
