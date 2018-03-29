@@ -101,7 +101,26 @@
       var o5 = [];
       var o6 = [];
       
-      for(var i = 0; i < 359; i++){
+      lastImg.onload = function(){
+      
+      for(var i = 0; i < 7; i++){
+      	tempCTX.clearRect(0,0,tempC.width,tempC.height);
+      	for(var j = 0; j < 360; j++){
+          var im = document.getElementById("o"+i);
+        	tempCTX.clearRect(0, 0, tempC.width, tempC.height);
+          tempCTX.save();
+          tempCTX.translate(tempC.width / 2, tempC.height / 2);
+          tempCTX.rotate(j * Math.PI / 180);
+          tempCTX.drawImage(im, -tempC.width / 4, -tempC.height / 4, tempC.width/2, tempC.height/2);
+          tempCTX.restore();
+          var u = tempC.toDataURL();
+          var s = document.createElement("img");
+          s.src = u;
+          s.id = "r" + j;
+          document.getElementById("o2" + i).appendChild(s);
+        }
+      } 
+              for(var i = 0; i < 359; i++){
          var t = document.getElementById("o20");
          o0[i] = t.getElementById("r" + i);
       }
@@ -128,31 +147,11 @@
       for(var i = 0; i < 359; i++){
          var t = document.getElementById("o26");
          o6[i] = t.getElementById("r" + i);
-      }
-      
-      console.log(o0[0]);
-      
-      lastImg.onload = function(){
-      
-      for(var i = 0; i < 7; i++){
-      	tempCTX.clearRect(0,0,tempC.width,tempC.height);
-      	for(var j = 0; j < 360; j++){
-          var im = document.getElementById("o"+i);
-        	tempCTX.clearRect(0, 0, tempC.width, tempC.height);
-          tempCTX.save();
-          tempCTX.translate(tempC.width / 2, tempC.height / 2);
-          tempCTX.rotate(j * Math.PI / 180);
-          tempCTX.drawImage(im, -tempC.width / 4, -tempC.height / 4, tempC.width/2, tempC.height/2);
-          tempCTX.restore();
-          var u = tempC.toDataURL();
-          var s = document.createElement("img");
-          s.src = u;
-          s.id = "r" + j;
-          document.getElementById("o2" + i).appendChild(s);
-        }
       } 
         document.getElementById("bs").remove();
       }
+      
+      console.log(o0[0]);
     	//Actual Game
       class star {
         constructor() {
