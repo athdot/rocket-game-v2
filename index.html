@@ -146,15 +146,15 @@
           return Math.round(Math.random() * (max - min)) + min;
         }
         getX(){
-          console.log(this.xy);
+          console.log(this.xy + " " + this.xs);
           return this.xy; 
         }
         getY(){
           return this.yy; 
         }
         draw() {
-          //this.xy += this.xs;
-          //this.yy += this.ys;
+          this.xy += this.xs;
+          this.yy += this.ys;
           this.rotation += this.rotationSpeed;
           this.rotation = this.rotation-Math.floor(this.rotation/360)*360;
           var a = document.getElementById("o2" + this.image);
