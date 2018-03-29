@@ -362,7 +362,7 @@
   	      highscore = distance;
         }
         drawFont(Math.floor(distance),50,c.width-10*(Math.floor(distance) + "").length-20,20,"white");
-        distance += 50/2000;
+        distance += 10/2000;
         drawShip(new ship(currentShip), shipRot, shipX, shipY, shipSize);
         if (shipY > shipH) {
           shipY -= (shipY - (shipH)) / 40;
