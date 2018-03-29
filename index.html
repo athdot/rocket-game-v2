@@ -412,7 +412,11 @@
         }
         drawFont(Math.floor(distance),50,c.width-10*(Math.floor(distance) + "").length-20,20,"white");       
         distance += 10/2000;
-	ds = (distance/15);
+	if(distance < 100){
+		ds = (distance/15);
+	}else{
+		ds = 100/15;	
+	}
         
         ctx.drawImage(img("o5"), 20, 10, 30, 30);
         drawFont(Math.floor(gold), 30, 65, 10, "white");
