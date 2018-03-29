@@ -458,17 +458,21 @@
          }
         //Objects
         if(random(1,Math.round(randMax-ds)) == 1){
+	if(random(1,10) != 1){
           if(currentShip != 8 && currentShip != 9){
-           objList[objList.length] = new obj(random(2,6));
+           objList[objList.length] = new obj(random(2,4));
           }else if(currentShip == 8){
-            objList[objList.length] = new obj(random(1,6));
+            objList[objList.length] = new obj(random(1,4));
           }else if(currentShip == 9){
-            var rends = random(1,6);
+            var rends = random(1,4);
             if(rends == 1){
               rends = 0; 
             }
             objList[objList.length] = new obj(rends);
           }
+	}else{
+		objList[objList.length] = new obj(random(5,6));
+	}
         }
         //Check if any objects has hit the ship
         
