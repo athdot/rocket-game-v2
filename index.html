@@ -169,7 +169,7 @@
           var a = inX - this.xy;
           var b = inY - this.yy;
           var c = Math.sqrt( a*a + b*b );
-          if(this.image != 5 && this.image != 6 && c < 40){
+          if(this.image != 5 && this.image != 6 && c < 60){
             return true; 
           }
           return false;
@@ -189,6 +189,8 @@
       function img(name) {
         return document.getElementById(name);
       }
+      
+      var cleverLosePhrases = ["Missed it by thaaaaat much...","Aaaaah! Missed it by that much!","Sooooo Close","One more time please","As my Grandmother used to say, watch out for the astroid!","Come on, try harder!","I believe in you","Oooops...","NooooOOooOooo...","Impossible!","And he was never heard from again...","Whelp! That one failed, might as well do another one...","[Player] left the game...","Test Subject 1032 is now MIA","Staaaaaaars...","Is the glass half full? Or is it empty?","What came first, The Chicken or the Egg?","Yeeeeeeeeeeeeee","Yeet","I think I saw a Yeti over there somewhere...","Did you know that 100% of human beings die from death?","Glad I wasn't him...","That was NASTY","SPLAT!","Ahh Dang... There goes another one...","We have limited pilots, you know...","Watching that was funnier than pretending to be a carrot!","Oh. Rip."];
 
       var skinPage = 0;
       var line = 0;
@@ -196,6 +198,39 @@
 
       var gold = 0;
       var emerald = 0;
+      
+      var runner;
+      
+      function randLose(){
+	      var i = random(0,cleverLosePhrases.length-1);
+        return cleverLosePhrases[i];
+      }
+
+      
+      function loseScreen(){
+	if(runner == null || runner === ""){
+  	runner = randLose();
+  }
+    //draw  top rectangle
+  ctx.fillStyle = "white";
+  ctx.fillRect(20,20,c.width-40,300);
+  drawFont("You died",30,c.width/2,25,"black");
+  drawFont("Score: " + Math.floor(distance),20,c.width/2,50,"black");
+  drawFont("Highscore: " + Math.floor(highscore),20,c.width/2,67,"black");
+    var deathImageCont = document.getElementById("d0");
+  	ctx.drawImage(deathImageCont,c.width/2-50,90,100,125);
+    drawFont(runner,20,c.width/2,250,"black");
+    drawCylander('Replay',c.width/2,350,300,35);
+    drawCylander('Menu',c.width/2,400,300,35);
+    if(tapLoc(c.width/2,350,300,35)){
+    	place = 3;
+    }
+    if(tapLoc(c.width/2,400,300,35)){
+    	setTimeout(function(){
+    		place = 0;
+      },210);
+    }
+}
 
       function skinScreen() {
         ctx.drawImage(img("o5"), c.width - 110, 5, 30, 30);
@@ -479,6 +514,10 @@
           play();
           objects();
           if(isDead){
+            for(var i = 0; i < objList.length; i++){
+              document.getElementById(objList[i].getId()).remove();
+            }
+            objList = [];
             place = 4; 
           }
         } else if (place == 3){
