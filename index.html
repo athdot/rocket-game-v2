@@ -222,10 +222,10 @@
     drawFont(runner,20,c.width/2,250,"black");
     drawCylander('Replay',c.width/2,350,300,35);
     drawCylander('Menu',c.width/2,400,300,35);
-    if(tapLoc(c.width/2,350,300,35)){
+    if(tapLoc(c.width/2-150,350-35/2,c.width/2 + 150,35/2+350)){
     	place = 3;
     }
-    if(tapLoc(c.width/2,400,300,35)){
+    if(tapLoc(c.width/2-150,400-35/2,c.width/2 + 150,35/2+400)){
     	setTimeout(function(){
     		place = 0;
       },210);
