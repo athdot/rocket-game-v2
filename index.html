@@ -148,6 +148,7 @@
           s.id = this.id;
           s.style = "position:absolute; z-index: 1000; top: " + this.yy + "px; left: " + this.xy + "px; transform: rotate(" +  Math.round(this.rotation) + "deg);";
           document.body.appendChild(s);
+          s.ondragstart = function() { return false; };
         }
         random(min, max) {
           return Math.round(Math.random() * (max - min)) + min;
