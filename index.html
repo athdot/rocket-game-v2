@@ -158,7 +158,7 @@
         getY(){
           return this.yy; 
         }
-        remove(){
+        removable(){
           return this.yy > c.height+100;
         }
         draw(size) {
@@ -394,8 +394,9 @@
         }
         //Remove objects over limit
         for(var i = 0; i < objList; i++){
-          if(objList[i].remove()){
+          if(objList[i].removable()){
             var temp = [];
+            document.getElementById(objList[i].getId()).remove();
             for(var j = 0; j < i; j++){
                temp[temp.length] = objList[j];
             }
