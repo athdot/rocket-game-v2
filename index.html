@@ -67,6 +67,43 @@
       	par.appendChild(d);
       }
       
+      var o0 = [];
+      var o1 = [];
+      var o2 = [];
+      var o3 = [];
+      var o4 = [];
+      var o5 = [];
+      var o6 = [];
+      
+      for(var i = 0; i < 359; i++){
+         var t = document.getElementById("o20");
+         o0[i] = t.getElementById("r" + i);
+      }
+      for(var i = 0; i < 359; i++){
+         var t = document.getElementById("o21");
+         o1[i] = t.getElementById("r" + i);
+      }
+      for(var i = 0; i < 359; i++){
+         var t = document.getElementById("o22");
+         o2[i] = t.getElementById("r" + i);
+      }
+      for(var i = 0; i < 359; i++){
+         var t = document.getElementById("o23");
+         o3[i] = t.getElementById("r" + i);
+      }
+      for(var i = 0; i < 359; i++){
+         var t = document.getElementById("o24");
+         o4[i] = t.getElementById("r" + i);
+      }
+      for(var i = 0; i < 359; i++){
+         var t = document.getElementById("o25");
+         o5[i] = t.getElementById("r" + i);
+      }
+      for(var i = 0; i < 359; i++){
+         var t = document.getElementById("o26");
+         o6[i] = t.getElementById("r" + i);
+      }
+      
       lastImg.onload = function(){
       
       for(var i = 0; i < 7; i++){
@@ -160,8 +197,22 @@
           this.yy += this.ys;
           this.rotation += this.rotationSpeed;
           this.rotation = this.rotation-Math.floor(this.rotation/360)*360;
-          var a = document.getElementById("o2" + this.image);
-          return a.getElementById("r"+Math.round(this.rotation));
+          if(this.image == 0){
+            var w = o0[Math.round(this.rotation)]; 
+          }else if(this.image == 1){
+            var w = o1[Math.round(this.rotation)]; 
+          }else if(this.image == 2){
+            var w = o2[Math.round(this.rotation)]; 
+          }else if(this.image == 3){
+            var w = o3[Math.round(this.rotation)]; 
+          }else if(this.image == 4){
+            var w = o4[Math.round(this.rotation)]; 
+          }else if(this.image == 5){
+            var w = o5[Math.round(this.rotation)]; 
+          }else if(this.image == 6){
+            var w = o6[Math.round(this.rotation)]; 
+          }
+          return w;
         }
       }
 
