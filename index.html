@@ -142,12 +142,13 @@
           this.moveDir = this.random(-20,20);
           this.xs = Math.sin(this.moveDir * Math.PI/180)*this.moveSpeed;
           this.ys = Math.cos(this.moveDir * Math.PI/180)*this.moveSpeed;
-          console.log(this.xs);
+          console.log(this.xs + " " + this.ys);
         }
         random(min, max) {
           return Math.round(Math.random() * (max - min)) + min;
         }
         getX(){
+          console.log(this.xy);
           return this.xy; 
         }
         getY(){
