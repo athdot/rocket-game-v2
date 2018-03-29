@@ -137,8 +137,9 @@
           this.rotation = this.random(0,359);
           this.rotationSpeed = this.random(-200,200)/100;
           this.xy = this.random(-100,window.innerWidth+100);
-          console.log(this.xy + " first");
           this.yy = -100;
+          console.log(this.xy);
+          console.log(this.yy);
           this.moveSpeed = this.random(0,300)/100;
           this.xs = Math.sin(this.moveDir * Math.PI/180)*this.moveSpeed;
           this.ys = Math.cos(this.moveDir * Math.PI/180)*this.moveSpeed;
