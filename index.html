@@ -390,11 +390,21 @@
       
       function objects(){
          for(var i = 0; i < objList.length; i++){
-            objList[i].draw(shipSize);
+            objList[i].draw(shipSize/2);
          }
         //Objects
         if(random(1,randMax) == 1){
-           objList[objList.length] = new obj(random(0,6));
+          if(currentShip != 8 && currentShip != 9){
+           objList[objList.length] = new obj(random(2,6));
+          }else if(currentShip == 8){
+            objList[objList.length] = new obj(random(1,6));
+          }else if(currentShip == 9){
+            var rends = random(1,6);
+            if(rends == 1){
+              rends = 0; 
+            }
+            objList[objList.length] = new obj(rends);
+          }
         }
         //Remove objects over limit
         for(var i = 0; i < objList.length; i++){
