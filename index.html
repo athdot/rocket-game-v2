@@ -160,7 +160,7 @@
           return this.yy; 
         }
         removable(){
-          return this.yy > window.innerHeight;
+          return (this.yy > window.innerHeight || this.xy < -200 || this.xy > window.innerWidth+200);
         }
         getId(){
           return this.id; 
