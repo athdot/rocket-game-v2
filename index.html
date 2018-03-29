@@ -393,8 +393,19 @@
            objList[objList.length] = new obj(random(0,6));
         }
         //Remove objects over limit
-        for(var i = 0; i < objList; i++){
+        for(var i = 0; i < objList.length; i++){
           console.log(objList[i].removable());
+          if(objList[i].removable()){
+            var temp = [];
+            document.getElementById(objList[i].getId()).remove();
+            for(var j = 0; j < i; j++){
+               temp[temp.length] = objList[j];
+            }
+            for(var j = i+1; j < objList.length; j++){
+              temp[temp.length] = objList[j]; 
+            }
+            objList = temp;
+          }
         }
       }
       
