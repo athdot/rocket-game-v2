@@ -152,6 +152,9 @@
         getY(){
           return this.yy; 
         }
+        remove(){
+          return this.yy > c.height+100;
+        }
         draw() {
           this.xy += this.xs;
           this.yy += this.ys;
@@ -396,7 +399,31 @@
           mult -= multm;
         }
       }
-      var apple = new obj(0);
+      var objList = [];
+      var randMax = 10;
+      
+      function objects(){
+         for(var i = 0; i < objList.length; i++){
+            rendObj(objList[i],100); 
+         }
+        //Objects
+        if(random(1,randMax) == 1){
+           objList[objList.length] = new obj(random(0,6));
+        }
+        //Remove objects over limit
+        for(var i = 0; i < objList; i++){
+          if(objList[i].remove()){
+            var temp = [];
+            for(var j = 0; j < i; j++){
+               temp[temp.length] = objList[j];
+            }
+            for(var j = i+1; j < objList.length; j++){
+              temp[temp.length] = objList[j]; 
+            }
+            objList = temp;
+          }
+        }
+      }
       
       function rendObj(ob,size){
         size *= 2;
@@ -428,7 +455,7 @@
           skinScreen();
         } else if (place == 1) {
           play();
-          rendObj(apple,100);
+          objects();
         }
       }, 10);
 
