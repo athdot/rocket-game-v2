@@ -361,8 +361,14 @@
         if(distance > highscore){
   	      highscore = distance;
         }
-        drawFont(Math.floor(distance),50,c.width-10*(Math.floor(distance) + "").length-20,20,"white");
+        drawFont(Math.floor(distance),50,c.width-10*(Math.floor(distance) + "").length-20,20,"white");       
         distance += 10/2000;
+        
+        ctx.drawImage(img("o5"), 20, 10, 30, 30);
+        drawFont(Math.floor(gold), 30, 65, 10, "white");
+        ctx.drawImage(img("o6"), 20, 37, 30, 30);
+        drawFont(Math.floor(emerald), 30, 65, 37, "white");
+        
         drawShip(new ship(currentShip), shipRot, shipX, shipY, shipSize);
         if (shipY > shipH) {
           shipY -= (shipY - (shipH)) / 40;
