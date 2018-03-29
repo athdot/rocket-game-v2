@@ -361,7 +361,7 @@
         if(distance > highscore){
   	      highscore = distance;
         }
-        drawFont(Math.floor(distance),50,gameField.width-10*(Math.floor(distance) + "").length-20,20,"white");
+        drawFont(Math.floor(distance),50,c.width-10*(Math.floor(distance) + "").length-20,20,"white");
         distance += 50/2000;
         drawShip(new ship(currentShip), shipRot, shipX, shipY, shipSize);
         if (shipY > shipH) {
