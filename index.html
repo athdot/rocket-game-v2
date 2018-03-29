@@ -166,14 +166,23 @@
           return this.id; 
         }
         hit(inX,inY){
-          var a = inX - this.xy;
-          var b = inY - this.yy;
+          var a = inX - (this.xy+document.getElementById(this.id).width/2);
+          var b = inY - (this.yy+document.getElementById(this.id).height/2);
           var c = Math.sqrt( a*a + b*b );
-          if(this.image != 5 && this.image != 6 && c < 60){
+          if(c < 60){
             return true; 
           }
           return false;
         }
+	isValue(){
+	  if(this.image == 5){
+		return 1;	  
+	  }else if(this.image == 6){
+		return 2;	  
+	  }else{
+		return 0;	  
+	  }
+	}
         draw(size) {
           this.xy += this.xs;
           this.yy += this.ys;
@@ -466,9 +475,31 @@
         //Check if any objects has hit the ship
         
         for(var i = 0; i < objList.length; i++){
-           if(objList[i].hit(shipX,shipY)){
+           if(objList[i].isValue() == 0 && objList[i].hit(shipX,shipY)){
               isDead = true; 
-           }
+           }else if(objList[i].isValue() == 1 && objList[i].hit(shipX,shipY)){
+		gold++;
+		var temp = [];
+            	document.getElementById(objList[i].getId()).remove();
+           	for(var j = 0; j < i; j++){
+               	  temp[temp.length] = objList[j];
+                }
+                for(var j = i+1; j < objList.length; j++){
+                  temp[temp.length] = objList[j]; 
+                }
+                objList = temp;
+	   }else if(objList[i].isValue() == 2 && objList[i].hit(shipX,shipY)){
+		emerald++;
+		var temp = [];
+            	document.getElementById(objList[i].getId()).remove();
+           	for(var j = 0; j < i; j++){
+               	  temp[temp.length] = objList[j];
+                }
+                for(var j = i+1; j < objList.length; j++){
+                  temp[temp.length] = objList[j]; 
+                }
+                objList = temp;
+	   }
         }
         
         //Remove objects over limit
@@ -504,7 +535,9 @@
           }
           drawCylander('Skins', c.width / 2, 180 + c.width / 5, 300, 35);
           if (tapLoc(c.width / 2 - 150, 180 + c.width / 5 - 20, c.width / 2 + 150, 180 + c.width / 5 + 20)) {
-            place = 2;
+            	setTimeout(function(){
+    			place = 2;
+      		},210);
           }
         } else if (place == 2) {
           skinPage = 0;
