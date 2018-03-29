@@ -416,6 +416,7 @@
         }
         drawFont(Math.floor(distance),50,c.width-10*(Math.floor(distance) + "").length-20,20,"white");       
         distance += 10/2000;
+	ds = Math.floor(distance/15);
         
         ctx.drawImage(img("o5"), 20, 10, 30, 30);
         drawFont(Math.floor(gold), 30, 65, 10, "white");
@@ -450,16 +451,17 @@
         }
       }
       var objList = [];
-      var randMax = Math.round(10000/c.width);
+      var randMax = 10000/c.width;
       var distance = 1;
       var isDead = false;
+	var ds = 0;
       
       function objects(){
          for(var i = 0; i < objList.length; i++){
             objList[i].draw(70);
          }
         //Objects
-        if(random(1,randMax) == 1){
+        if(random(1,Math.round(randMax-ds)) == 1){
           if(currentShip != 8 && currentShip != 9){
            objList[objList.length] = new obj(random(2,6));
           }else if(currentShip == 8){
@@ -560,6 +562,7 @@
           shipY = c.height + 300;
           place = 1;
 	  runner = "";
+	  ds = 0;
         } else if (place == 4){
 	  loseScreen();	
 	}
