@@ -139,6 +139,7 @@
           this.xy = this.random(-100,window.innerWidth+100);
           this.yy = -100;
           this.moveSpeed = this.random(0,300)/100;
+          this.moveDir = this.random(-20,20);
           this.xs = Math.sin(this.moveDir * Math.PI/180)*this.moveSpeed;
           this.ys = Math.cos(this.moveDir * Math.PI/180)*this.moveSpeed;
         }
@@ -146,7 +147,6 @@
           return Math.round(Math.random() * (max - min)) + min;
         }
         getX(){
-          console.log(this.xy + " " + this.xs);
           return this.xy; 
         }
         getY(){
